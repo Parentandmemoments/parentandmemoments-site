@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Parent Burnout Score — Discover Yourself as a Parent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Mood palette: quiet, introspective, Sunday-evening, holding-it-together */
+  --bg:          #F2F0EC;       /* warm linen — not quite white, grounded */
+  --surface:     #ECEAE5;       /* slightly darker surface */
+  --card:        #F8F7F4;       /* lifted card */
+  --deep:        #1F2028;       /* near-black with a blue undertone */
+  --mid:         #4C4E5A;       /* muted blue-grey prose */
+  --muted:       #878A97;       /* hints, labels */
+  --border:      rgba(31,32,40,0.09);
+
+  /* Accent: a dusty sage-blue — calm authority, not corporate */
+  --accent:      #4A6FA5;
+  --accent-light:#E8EEF6;
+  --accent-mid:  #6B8FC4;
+
+  /* Warmth accent for emotional moments */
+  --warm:        #A0664A;
+  --warm-light:  #F5EDE8;
+
+  /* Result colours — understated */
+  --ok-color:    #4A7C59;
+  --ok-bg:       #EAF2ED;
+  --warn-color:  #8A6B2A;
+  --warn-bg:     #F5F0E4;
+  --burn-color:  #8A3F3F;
+  --burn-bg:     #F5EAEA;
+
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Inter', system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--deep);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--deep);
+  color: #F2F0EC;
+  padding: 88px 24px 96px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(74,111,165,0.22) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-mid);
+  margin-bottom: 28px;
+  position: relative;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(34px, 5.5vw, 62px);
+  font-weight: 600;
+  line-height: 1.12;
+  max-width: 800px;
+  margin: 0 auto 26px;
+  position: relative;
+  letter-spacing: -0.01em;
+}
+.hero h1 em { font-style: italic; color: #A8BDD9; }
+.hero-sub {
+  font-size: clamp(15px, 2vw, 18px);
+  color: rgba(242,240,236,0.62);
+  max-width: 520px;
+  margin: 0 auto 52px;
+  font-weight: 300;
+  position: relative;
+  line-height: 1.75;
+}
+.btn-primary {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 500;
+  padding: 17px 44px;
+  border-radius: 3px;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, transform 0.15s;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+.btn-primary:hover { background: #3A5D8F; transform: translateY(-1px); }
+.hero-note {
+  margin-top: 18px;
+  font-size: 12px;
+  color: rgba(242,240,236,0.38);
+  position: relative;
+}
+
+/* ── PROOF STRIP (replaced) ── */
+.proof-strip {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 22px 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--mid);
+  line-height: 1.6;
+}
+.proof-strip strong { color: var(--deep); font-weight: 500; }
+
+/* ── SECTIONS ── */
+.section { padding: 80px 24px; max-width: 700px; margin: 0 auto; }
+
+/* ── MIRROR ── */
+.mirror { background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.mirror-inner { max-width: 680px; margin: 0 auto; padding: 72px 24px; }
+.mirror-lead {
+  font-family: var(--serif);
+  font-size: clamp(22px, 3vw, 31px);
+  line-height: 1.38;
+  color: var(--mid);
+  font-style: italic;
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+.mirror-body { font-size: 17px; color: var(--mid); line-height: 1.85; }
+.mirror-body p + p { margin-top: 18px; }
+.mirror-body strong { color: var(--deep); font-weight: 500; }
+
+/* ── CHECKLIST ── */
+.checklist { list-style: none; margin: 32px 0; }
+.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 16px;
+  color: var(--mid);
+  line-height: 1.65;
+}
+.checklist li:last-child { border-bottom: none; }
+.check-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  margin-top: 8px;
+  opacity: 0.7;
+}
+
+/* ── QUIZ SECTION ── */
+.quiz-section {
+  background: var(--deep);
+  color: #F2F0EC;
+  padding: 88px 24px;
+}
+.quiz-wrap { max-width: 660px; margin: 0 auto; }
+.quiz-header { text-align: center; margin-bottom: 52px; }
+.quiz-eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-mid);
+  margin-bottom: 18px;
+}
+.quiz-title {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 600;
+  line-height: 1.18;
+  margin-bottom: 16px;
+}
+.quiz-title em { font-style: italic; color: #A8BDD9; }
+.quiz-sub { font-size: 15px; color: rgba(242,240,236,0.55); font-weight: 300; }
+
+/* Progress */
+.quiz-progress { margin-bottom: 36px; }
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: rgba(242,240,236,0.4);
+  margin-bottom: 10px;
+}
+.progress-bar { height: 2px; background: rgba(242,240,236,0.1); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent-mid); border-radius: 2px; transition: width 0.45s ease; }
+
+/* Question card */
+.q-card {
+  background: rgba(242,240,236,0.04);
+  border: 1px solid rgba(242,240,236,0.08);
+  border-radius: 8px;
+  padding: 38px 34px;
+  display: none;
+}
+.q-card.active { display: block; animation: fadeUp 0.35s ease; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.q-num { font-size: 11px; letter-spacing: 0.18em; color: rgba(242,240,236,0.35); margin-bottom: 16px; font-weight: 500; }
+.q-text {
+  font-family: var(--serif);
+  font-size: clamp(18px, 2.8vw, 23px);
+  line-height: 1.42;
+  margin-bottom: 30px;
+  font-weight: 400;
+}
+.q-options { display: flex; flex-direction: column; gap: 11px; }
+.q-option {
+  background: rgba(242,240,236,0.05);
+  border: 1px solid rgba(242,240,236,0.1);
+  border-radius: 5px;
+  padding: 14px 18px;
+  font-size: 14px;
+  color: rgba(242,240,236,0.78);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.18s;
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.5;
+}
+.q-option:hover { background: rgba(74,111,165,0.18); border-color: rgba(74,111,165,0.4); color: #F2F0EC; }
+.q-option.selected { background: rgba(74,111,165,0.22); border-color: var(--accent); color: #F2F0EC; }
+
+/* ── RESULT SCREENS (inside quiz section, hidden initially) ── */
+.result-screen { display: none; animation: fadeUp 0.5s ease; }
+.result-screen.active { display: block; }
+
+.result-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 18px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.badge-ok   { background: rgba(74,124,89,0.2); color: #7FC49A; border: 1px solid rgba(74,124,89,0.3); }
+.badge-warn { background: rgba(138,107,42,0.2); color: #D4A84A; border: 1px solid rgba(138,107,42,0.3); }
+.badge-burn { background: rgba(138,63,63,0.2); color: #D47A7A; border: 1px solid rgba(138,63,63,0.3); }
+
+.result-headline {
+  font-family: var(--serif);
+  font-size: clamp(24px, 3.5vw, 36px);
+  line-height: 1.22;
+  margin-bottom: 28px;
+  font-weight: 600;
+}
+.result-body { font-size: 16px; color: rgba(242,240,236,0.7); line-height: 1.85; max-width: 560px; margin: 0 auto 40px; }
+.result-body p + p { margin-top: 14px; }
+.result-body strong { color: #F2F0EC; font-weight: 500; }
+
+/* ── BOOK OFFER (inside quiz, revealed after result) ── */
+.book-offer-box {
+  background: rgba(242,240,236,0.05);
+  border: 1px solid rgba(242,240,236,0.1);
+  border-radius: 10px;
+  padding: 0;
+  max-width: 560px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.book-offer-top {
+  padding: 32px 32px 0;
+  text-align: center;
+}
+.book-offer-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-mid);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.book-offer-title {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-style: italic;
+  color: #C8D8EB;
+  margin-bottom: 6px;
+}
+.book-offer-sub {
+  font-size: 13px;
+  color: rgba(242,240,236,0.45);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+.book-what-you-get {
+  background: rgba(242,240,236,0.04);
+  border-top: 1px solid rgba(242,240,236,0.08);
+  padding: 20px 28px;
+  text-align: left;
+}
+.book-what-you-get p {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(242,240,236,0.4);
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.book-includes { list-style: none; }
+.book-includes li {
+  font-size: 14px;
+  color: rgba(242,240,236,0.7);
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(242,240,236,0.06);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.5;
+}
+.book-includes li:last-child { border-bottom: none; }
+.book-includes li::before { content: '→'; color: var(--accent-mid); flex-shrink: 0; margin-top: 1px; font-size: 12px; }
+
+/* ── BOOK PURCHASE FORM ── */
+.book-purchase-form {
+  background: rgba(74,111,165,0.1);
+  border-top: 1px solid rgba(74,111,165,0.2);
+  padding: 28px 32px;
+}
+.book-purchase-form h4 {
+  font-family: var(--serif);
+  font-size: 18px;
+  color: #F2F0EC;
+  margin-bottom: 6px;
+  font-weight: 400;
+}
+.book-purchase-form p { font-size: 13px; color: rgba(242,240,236,0.5); margin-bottom: 18px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+@media(max-width:480px){ .form-row { grid-template-columns: 1fr; } }
+.form-input {
+  width: 100%;
+  background: rgba(242,240,236,0.07);
+  border: 1px solid rgba(242,240,236,0.14);
+  border-radius: 5px;
+  padding: 13px 16px;
+  font-size: 14px;
+  color: #F2F0EC;
+  font-family: var(--sans);
+  outline: none;
+  transition: border 0.18s;
+  margin-bottom: 0;
+}
+.form-input::placeholder { color: rgba(242,240,236,0.28); }
+.form-input:focus { border-color: var(--accent-mid); }
+.btn-buy-book {
+  width: 100%;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: var(--sans);
+  transition: background 0.2s, transform 0.15s;
+  margin-top: 10px;
+  letter-spacing: 0.01em;
+}
+.btn-buy-book:hover { background: #3A5D8F; transform: translateY(-1px); }
+.buy-note { margin-top: 10px; font-size: 11px; color: rgba(242,240,236,0.3); text-align: center; }
+
+/* ── CALL ADD-ON (irresistible) ── */
+.call-addon {
+  background: rgba(160,102,74,0.12);
+  border: 1px solid rgba(160,102,74,0.25);
+  border-radius: 8px;
+  padding: 24px 28px;
+  margin-top: 16px;
+  text-align: left;
+}
+.call-addon-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #D4957A;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.call-addon h4 {
+  font-family: var(--serif);
+  font-size: 18px;
+  color: #F2F0EC;
+  font-weight: 400;
+  margin-bottom: 10px;
+  line-height: 1.35;
+}
+.call-addon p { font-size: 13px; color: rgba(242,240,236,0.6); line-height: 1.7; margin-bottom: 14px; }
+.call-addon-perks { list-style: none; margin-bottom: 16px; }
+.call-addon-perks li {
+  font-size: 13px;
+  color: rgba(242,240,236,0.65);
+  padding: 5px 0;
+  display: flex;
+  gap: 8px;
+}
+.call-addon-perks li::before { content: '✓'; color: #D4957A; font-weight: 600; flex-shrink: 0; }
+.call-addon-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  background: rgba(160,102,74,0.15);
+  border: 1px solid rgba(160,102,74,0.3);
+  border-radius: 5px;
+  padding: 13px 16px;
+  transition: all 0.2s;
+}
+.call-addon-toggle:hover { background: rgba(160,102,74,0.25); }
+.call-addon-toggle input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #D4957A;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.call-addon-toggle span { font-size: 14px; color: #F2F0EC; font-weight: 400; line-height: 1.4; }
+.call-addon-toggle strong { font-weight: 500; color: #FFDBC8; }
+
+/* ── AFTER PURCHASE: booking confirmation ── */
+.booking-screen {
+  display: none;
+  text-align: center;
+  padding: 20px 0;
+  animation: fadeUp 0.4s ease;
+}
+.booking-screen.active { display: block; }
+.booking-screen h3 {
+  font-family: var(--serif);
+  font-size: clamp(22px, 3vw, 30px);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.booking-screen p { font-size: 15px; color: rgba(242,240,236,0.6); margin-bottom: 28px; max-width: 440px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+.btn-book-call {
+  display: inline-block;
+  background: transparent;
+  color: #F2F0EC;
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 500;
+  padding: 16px 40px;
+  border-radius: 5px;
+  text-decoration: none;
+  border: 1px solid rgba(242,240,236,0.3);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.btn-book-call:hover { border-color: var(--accent-mid); background: rgba(74,111,165,0.1); }
+
+/* ── TESTIMONIALS ── */
+.testimonials { padding: 80px 24px; max-width: 900px; margin: 0 auto; }
+.testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 20px; margin-top: 48px; }
+.t-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 26px 22px;
+}
+.t-quote { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--mid); line-height: 1.75; margin-bottom: 18px; font-weight: 400; }
+.t-author { font-size: 13px; font-weight: 500; color: var(--deep); }
+.t-role { font-size: 12px; color: var(--muted); }
+.stars { color: #B89A4A; font-size: 13px; margin-bottom: 12px; }
+
+/* ── AUTHOR ── */
+.author-section { background: var(--deep); color: #F2F0EC; padding: 80px 24px; }
+.author-inner { max-width: 660px; margin: 0 auto; }
+.author-eyebrow { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent-mid); font-weight: 600; margin-bottom: 22px; }
+.author-inner h2 { font-family: var(--serif); font-size: clamp(24px, 3vw, 36px); line-height: 1.28; margin-bottom: 24px; font-weight: 600; }
+.author-inner p { font-size: 16px; color: rgba(242,240,236,0.65); line-height: 1.85; margin-bottom: 16px; }
+.author-inner strong { color: #F2F0EC; font-weight: 500; }
+
+/* ── FINAL CTA ── */
+.final-cta { padding: 96px 24px; text-align: center; max-width: 620px; margin: 0 auto; }
+.final-cta h2 { font-family: var(--serif); font-size: clamp(28px, 4vw, 46px); line-height: 1.2; margin-bottom: 20px; font-weight: 600; }
+.final-cta h2 em { font-style: italic; color: var(--accent); }
+.final-cta p { font-size: 17px; color: var(--mid); margin-bottom: 40px; line-height: 1.75; }
+
+/* ── FOOTER ── */
+footer { border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; font-size: 13px; color: var(--muted); }
+footer a { color: var(--muted); text-decoration: none; }
+
+/* Utilities */
+.text-center { text-align: center; }
+.mt-8  { margin-top: 8px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.mt-40 { margin-top: 40px; }
+.sec-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+.sec-title { font-family: var(--serif); font-size: clamp(26px, 3.5vw, 40px); line-height: 1.22; margin-bottom: 20px; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <p class="hero-eyebrow">Free 2-Minute Assessment</p>
+  <h1>Are You <em>Closer to the Edge</em><br>Than You're Letting Yourself Admit?</h1>
+  <p class="hero-sub">Take the Parent Burnout Score and discover yourself as a parent — clearly, honestly, without judgement.</p>
+  <div>
+    <a href="#quiz" class="btn-primary">Take the Free Quiz →</a>
+    <p class="hero-note">8 honest questions to discover yourself as a parent.</p>
+  </div>
+</section>
+
+<!-- ── PROOF STRIP (replaced per instruction) ── -->
+<div class="proof-strip">
+  After discovering yourself, <strong>book a call with me</strong> to see how best I can help you.
+</div>
+
+<!-- ── MIRROR ── -->
+<section class="mirror">
+  <div class="mirror-inner">
+    <p class="mirror-lead">"You're still showing up. Still doing the thing. And yet something is quietly, unmistakably wrong."</p>
+    <div class="mirror-body">
+      <p>You love your child. That part is not in question. But somewhere between the school runs and the work calls and the bedtime battles, you started losing yourself — and losing <em>them</em> — in a way nobody warned you about.</p>
+      <p>You're not failing. But you're not okay either. And the worst part? <strong>You can feel the distance opening up between you and your child</strong> — that gap where connection used to be — and you don't quite know how to close it.</p>
+      <p>This is what parenting burnout looks like from the inside. Not dramatic. Not a crisis anyone can see. Just a quiet, creeping depletion that makes you less present, less patient, and less like yourself — one week at a time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── RECOGNITION ── -->
+<section class="section">
+  <p class="sec-eyebrow">Does any of this sound familiar?</p>
+  <h2 class="sec-title">You didn't plan to end up here. But here you are.</h2>
+  <ul class="checklist">
+    <li><span class="check-dot"></span>You lie awake replaying the moments you missed, the things you said, the ways you fell short — even when you tried your best.</li>
+    <li><span class="check-dot"></span>You snap at your child and feel a wave of shame that follows you for the rest of the day.</li>
+    <li><span class="check-dot"></span>You're physically in the room but mentally a thousand miles away — and you feel guilty about that too.</li>
+    <li><span class="check-dot"></span>You can't remember the last time you did something just for you. Even the idea feels indulgent.</li>
+    <li><span class="check-dot"></span>Sundays fill you with a low dread you can't quite explain — not because you don't love your family, but because you're not sure how much longer you can keep this up.</li>
+    <li><span class="check-dot"></span>You're managing. But there was a version of you who was more patient, more connected, more present. And you miss her.</li>
+  </ul>
+  <p style="font-size:17px;color:var(--mid);margin-top:28px;line-height:1.85;">If you checked even two of these, this quiz was built for you. Not to diagnose you — but to <strong style="color:var(--deep);font-weight:500;">give a name to something you've already been feeling</strong>, and show you exactly what to do next.</p>
+  <div class="mt-40 text-center">
+    <a href="#quiz" class="btn-primary">Discover Yourself as a Parent →</a>
+  </div>
+</section>
+
+<!-- ── QUIZ ── -->
+<section class="quiz-section" id="quiz">
+  <div class="quiz-wrap">
+
+    <div class="quiz-header">
+      <p class="quiz-eyebrow">The Parent Burnout Score</p>
+      <h2 class="quiz-title">8 Honest Questions.<br><em>Discover yourself as a parent.</em></h2>
+      <p class="quiz-sub">Answer as honestly as you can. No one else sees your score.</p>
+    </div>
+
+    <div class="quiz-progress">
+      <div class="progress-label">
+        <span id="progress-text">Question 1 of 8</span>
+        <span id="progress-pct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="q-card active" data-q="1">
+      <p class="q-num">01 / 08</p>
+      <p class="q-text">How often do you feel truly present with your child — not distracted, not mentally somewhere else?</p>
+      <div class="q-options">
+        <button class="q-option" data-score="1">Almost always — I'm usually pretty present</button>
+        <button class="q-option" data-score="2">Some days yes, some days no</button>
+        <button class="q-option" data-score="3">Rarely. I'm usually half-somewhere-else</button>
+        <button class="q-option" data-score="4">I can't even remember the last time</button>
+      </div>
+    </div>
+    <!-- Q2 -->
+    <div class="q-card" data-q="2">
+      <p class="q-num">02 / 08</p>
+      <p class="q-text">When was the last time you did something just for you — not for work, not for your kids, just for yourself?</p>
+      <div class="q-options">
+        <button class="q-option" data-score="1">This week</button>
+        <button class="q-option" data-score="2">This month</button>
+        <button class="q-option" data-score="3">Honestly, I can't remember</button>
+        <button class="q-option" data-score="4">What does that even mean?</button>
+      </div>
+    </div>
+    <!-- Q3 -->
+    <div class="q-card" data-q="3">
+      <p class="q-num">03 / 08</p>
+      <p class="q-text">How do you feel on Sunday evenings?</p>
+      <div class="q-options">
+        <button class="q-option" data-score="1">Mostly okay — ready for the week</button>
+        <button class="q-option" data-score="2">A little anxious but managing</button>
+        <button class="q-option" data-score="3">That low-grade dread that never really leaves</button>
+        <button class="q-option" data-score="4">I already feel exhausted and Monday hasn't started</button>
+      </div>
+    </div>
+    <!-- Q4 -->
+    <div class="q-card" data-q="4">
+      <p class="q-num">04 / 08</p>
+      <p class="q-text">When your child has a meltdown or tough moment, what's your usual internal reaction?</p>
+      <div class="q-options">
+        <button class="q-option" data-score="1">I feel fairly calm and can handle it</button>
+        <button class="q-option" data-score="2">I feel stressed but recover quickly</button>
+        <button class="q-option" data-score="3">I snap more than I'd like to</button>
+        <button class="q-option" data-score="4">I'm running on empty — everything feels like too much</button>
+      </div>
+    </div>
+    <!-- Q5 -->
+    <div class="q-card" data-q="5">
+      <p class="q-num">05 / 08</p>
+      <p class="q-text">How often do you lie awake replaying the day — the moments you missed, the things you said, the ways you fell short?</p>
+      <div class="q-options">
+        <button class="q-option" data-score="1">Rarely or never</button>
+        <button class="q-option" data-score="2">Occasionally</button>
+        <button class="q-option" data-score="3">A few times a week</button>
+        <button class="q-option" data-score="4">Almost every night</button>
+      </div>
+    </div>
+    <!-- Q6 -->
+    <div class="q-card" data-q="6">
+      <p class="q-num">06 / 08</p>
+      <p class="q-text">Which of these feels most true right now?</p>
+      <div class="q-options">
+        <button class="q-option" data-score="1">I'm tired but I feel good about how things are going</button>
+        <button class="q-option" data-score="2">I'm managing but quietly running low</button>
+        <button class="q-option" data-score="3">I'm holding it together on the outside, struggling inside</button>
+        <button class="q-option" data-score="4">I'm not sure how much longer I can keep this up</button>
+      </div>
+    </div>
+    <!-- Q7 -->
+    <div class="q-card" data-q="7">
+      <p class="q-num">07 / 08</p>
+      <p class="q-text">When was the last time you felt genuinely connected to your child — not just physically present, but really there?</p>
+      <div class="q-options">
+        <button class="q-option" data-score="1">Recently — we have those moments</button>
+        <button class="q-option" data-score="2">A week or two ago</button>
+        <button class="q-option" data-score="3">It's been a while and I feel guilty about it</button>
+        <button class="q-option" data-score="4">I feel disconnected and don't know how to get back</button>
+      </div>
+    </div>
+    <!-- Q8 -->
+    <div class="q-card" data-q="8">
+      <p class="q-num">08 / 08</p>
+      <p class="q-text">If a close friend described how you've seemed lately, what would they probably say?</p>
+      <div class="q-options">
+        <button class="q-option" data-score="1">That I seem happy and on top of things</button>
+        <button class="q-option" data-score="2">That I seem tired but okay</button>
+        <button class="q-option" data-score="3">That they're a bit worried about me</button>
+        <button class="q-option" data-score="4">That I've gone quiet and seem like I need help</button>
+      </div>
+    </div>
+
+    <!-- ── RESULTS (revealed after quiz, book hidden until here) ── -->
+
+    <!-- LOW: 8–14 -->
+    <div class="result-screen text-center" id="result-low">
+      <div class="result-badge badge-ok">You're paying attention</div>
+      <h3 class="result-headline">You're doing better than you think.<br>But you already knew something was slightly off.</h3>
+      <div class="result-body">
+        <p>Otherwise you wouldn't be here.</p>
+        <p>The fact that you're paying attention matters. Parents who pay attention raise children who feel seen. You're not in crisis. But <strong>the gap between managing and thriving is real</strong> — and it quietly widens when nobody's watching it.</p>
+        <p>This is the stage most parenting resources miss entirely. Not broken enough to ask for help. Not fine enough to stop feeling it.</p>
+        <p>The book below is written for exactly where you are — short, honest, and specific to this moment.</p>
+      </div>
+      <div class="book-offer-box">
+        <div class="book-offer-top">
+          <p class="book-offer-eyebrow">Your next step</p>
+          <p class="book-offer-title">Dear Parent, It's Okay</p>
+          <p class="book-offer-sub">By Chia Oyekwe · Written for parents who are paying attention before the gap widens</p>
+        </div>
+        <div class="book-what-you-get">
+          <p>What's inside</p>
+          <ul class="book-includes">
+            <li>Why guilt and depletion feed each other — and the one shift that breaks the cycle</li>
+            <li>The real reason you snap, and what your nervous system is asking for</li>
+            <li>How to rebuild connection when you have nothing left to give</li>
+            <li>A daily reset that takes under 10 minutes and changes the texture of your whole day</li>
+          </ul>
+        </div>
+        <div class="book-purchase-form" id="purchase-form-low">
+          <h4>Get the book and take your first step.</h4>
+          <p>Enter your details to get instant access.</p>
+          <div class="form-row">
+            <input type="text" class="form-input" placeholder="First name" />
+            <input type="email" class="form-input" placeholder="Email address" />
+          </div>
+          <div class="call-addon">
+            <p class="call-addon-label">Add on — recommended for you</p>
+            <h4>A free 30-minute call with Chia</h4>
+            <p>You've identified something real today. The book will help. But <strong>a conversation with Chia</strong> will show you exactly which part applies to you — and what to do first.</p>
+            <ul class="call-addon-perks">
+              <li>Chia reviews your quiz score before the call — you don't start from zero</li>
+              <li>No pitch, no pressure — just a specific, honest conversation about your situation</li>
+              <li>You'll leave with 2–3 things to do this week, not a programme to buy</li>
+              <li>Valued at £150 — included free when you get the book today</li>
+            </ul>
+            <label class="call-addon-toggle">
+              <input type="checkbox" id="call-check-low" />
+              <span>Yes — include my <strong>free discovery call</strong> with the book</span>
+            </label>
+          </div>
+          <button class="btn-buy-book" onclick="handlePurchase('low')">Get the Book →</button>
+          <p class="buy-note">Instant access. Your details are kept private.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- MID: 15–22 -->
+    <div class="result-screen text-center" id="result-mid">
+      <div class="result-badge badge-warn">Warning zone</div>
+      <h3 class="result-headline">Your body already knows it.<br>This score just gave it a name.</h3>
+      <div class="result-body">
+        <p>You're still functioning. Still showing up. Still doing the thing.</p>
+        <p>But something's off — you feel it in the Sunday evenings, in the way you snap and then spiral, in the distance that's opened up between you and your child that you don't quite know how to close.</p>
+        <p><strong>This is the stage nobody warns you about.</strong> Not broken enough to ask for help. Too depleted to fix it alone. And the longer you wait, the wider that gap gets — because your child feels it before you admit it.</p>
+        <p>The book below is where to start. And this score means you shouldn't start alone.</p>
+      </div>
+      <div class="book-offer-box">
+        <div class="book-offer-top">
+          <p class="book-offer-eyebrow">Your next step</p>
+          <p class="book-offer-title">Dear Parent, It's Okay</p>
+          <p class="book-offer-sub">By Chia Oyekwe · Written specifically for parents in the warning zone — before it gets heavier</p>
+        </div>
+        <div class="book-what-you-get">
+          <p>What's inside</p>
+          <ul class="book-includes">
+            <li>The 5 signs you're in warning zone depletion — not just "tired"</li>
+            <li>Why willpower stopped working — and what actually replaces it</li>
+            <li>How to close the connection gap with your child without having more energy</li>
+            <li>The real reason the guilt loop keeps running — and how to step out of it</li>
+          </ul>
+        </div>
+        <div class="book-purchase-form" id="purchase-form-mid">
+          <h4>Get the book. Don't sit with this alone.</h4>
+          <p>Enter your details to get instant access.</p>
+          <div class="form-row">
+            <input type="text" class="form-input" placeholder="First name" />
+            <input type="email" class="form-input" placeholder="Email address" />
+          </div>
+          <div class="call-addon">
+            <p class="call-addon-label">Strongly recommended at your score</p>
+            <h4>A free 30-minute call with Chia</h4>
+            <p>At a mid score, the book helps — but it can't ask you questions. <strong>Chia can.</strong> In 30 minutes she'll identify the one or two things driving your depletion and tell you specifically what to do about them.</p>
+            <ul class="call-addon-perks">
+              <li>She reviews your quiz answers before the call — it's already personal</li>
+              <li>You'll leave with a clear, specific plan — not generic advice</li>
+              <li>Parents at your score say this call alone changed how they saw their situation</li>
+              <li>Valued at £150 — included free when you get the book today</li>
+            </ul>
+            <label class="call-addon-toggle">
+              <input type="checkbox" id="call-check-mid" checked />
+              <span>Yes — include my <strong>free discovery call</strong> with the book</span>
+            </label>
+          </div>
+          <button class="btn-buy-book" onclick="handlePurchase('mid')">Get the Book + Free Call →</button>
+          <p class="buy-note">Instant access. Your details are kept private.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- HIGH: 23–32 -->
+    <div class="result-screen text-center" id="result-high">
+      <div class="result-badge badge-burn">You're in burnout</div>
+      <h3 class="result-headline">And you've probably been here<br>longer than you're admitting.</h3>
+      <div class="result-body">
+        <p>This isn't tiredness. This isn't a bad week.</p>
+        <p>This is what happens when someone who loves deeply has been running on empty for too long — with no real support, no real rest, and the constant quiet pressure to hold everything together anyway.</p>
+        <p><strong>What you're feeling has a name. It is not weakness. It is not failure.</strong> It is what burnout looks like in a parent who never stops caring.</p>
+        <p>The book is where to start — it will name what you're experiencing precisely. But at your score, you need more than words on a page. You need a conversation with someone who can see your specific situation.</p>
+      </div>
+      <div class="book-offer-box">
+        <div class="book-offer-top">
+          <p class="book-offer-eyebrow">Your next step</p>
+          <p class="book-offer-title">Dear Parent, It's Okay</p>
+          <p class="book-offer-sub">By Chia Oyekwe · The starting point — plus the conversation that makes it land</p>
+        </div>
+        <div class="book-what-you-get">
+          <p>What's inside</p>
+          <ul class="book-includes">
+            <li>What parental burnout actually is — and why loving your children is not enough to prevent it</li>
+            <li>The hidden cost of running on empty — what your child is picking up that you haven't named</li>
+            <li>How to begin returning to yourself without abandoning them</li>
+            <li>The first three things to do this week — specific, not motivational</li>
+          </ul>
+        </div>
+        <div class="book-purchase-form" id="purchase-form-high">
+          <h4>Get the book. And let Chia in.</h4>
+          <p>Enter your details to get instant access.</p>
+          <div class="form-row">
+            <input type="text" class="form-input" placeholder="First name" />
+            <input type="email" class="form-input" placeholder="Email address" />
+          </div>
+          <div class="call-addon">
+            <p class="call-addon-label">Essential at your score</p>
+            <h4>A free 30-minute call with Chia — this one matters.</h4>
+            <p>You've been holding this alone. <strong>That's exactly what makes it heavier.</strong> In 30 minutes, Chia will look at your specific score, ask you three questions nobody else has asked, and tell you honestly what she sees and what would actually help.</p>
+            <ul class="call-addon-perks">
+              <li>She's seen this score before — many times — and she knows what's underneath it</li>
+              <li>No programme pitch. No pressure. An honest conversation about your situation</li>
+              <li>You'll leave knowing exactly what to do next — and feeling less alone in it</li>
+              <li>Valued at £150 — included free when you get the book today</li>
+            </ul>
+            <label class="call-addon-toggle">
+              <input type="checkbox" id="call-check-high" checked />
+              <span>Yes — include my <strong>free discovery call</strong> with Chia</span>
+            </label>
+          </div>
+          <button class="btn-buy-book" onclick="handlePurchase('high')">Get the Book + Free Call →</button>
+          <p class="buy-note">Instant access. Your details are kept private.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── POST-PURCHASE: booking screen ── -->
+    <div class="booking-screen" id="booking-screen">
+      <p class="quiz-eyebrow">You're in.</p>
+      <h3 class="result-headline" style="margin-bottom:12px;">Check your inbox for the book.<br>Now book your call with Chia.</h3>
+      <p>She's already seen your score. The call is 30 minutes. It's free. And it's the thing that will make everything you just read actually land.</p>
+      <a href="#" class="btn-buy-book" style="display:inline-block;width:auto;padding:16px 40px;margin-bottom:12px;">Book My Free Call with Chia →</a>
+      <p style="font-size:12px;color:rgba(242,240,236,0.3);">No obligation. No pitch. Just an honest conversation.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section class="testimonials">
+  <div class="text-center">
+    <p class="sec-eyebrow">From parents who've been exactly where you are</p>
+    <h2 class="sec-title">What happens when someone finally names it.</h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="t-card">
+      <div class="stars">★★★★★</div>
+      <p class="t-quote">"I read the first chapter and cried. Not because it was sad — because it was the first time anyone had described what I'd been feeling for two years without making me feel broken."</p>
+      <p class="t-author">Sarah M.</p>
+      <p class="t-role">Working mum, two children under 5</p>
+    </div>
+    <div class="t-card">
+      <div class="stars">★★★★★</div>
+      <p class="t-quote">"I scored 24. The call with Chia was 30 minutes. Within a week my relationship with my daughter had already shifted. I didn't expect it to move that fast."</p>
+      <p class="t-author">Rachel T.</p>
+      <p class="t-role">Single parent, primary school teacher</p>
+    </div>
+    <div class="t-card">
+      <div class="stars">★★★★★</div>
+      <p class="t-quote">"The quiz named the exact thing I couldn't say out loud. I wasn't failing. I was depleted. That distinction changed everything — and the book told me what to do with that."</p>
+      <p class="t-author">Amara J.</p>
+      <p class="t-role">New mum, returned to work at 6 months</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── AUTHOR ── -->
+<section class="author-section">
+  <div class="author-inner">
+    <p class="author-eyebrow">About Chia Oyekwe</p>
+    <h2>She didn't write this from a place of having it figured out.</h2>
+    <p>She wrote it because she knows what it costs to love your children completely while quietly losing yourself in the process.</p>
+    <p>The three-book series, the quiz, the programme — they all exist for the same reason. <strong>Too many parents are struggling in a way that has a name, and a solution, and nobody is telling them.</strong></p>
+    <p>She's telling you now.</p>
+  </div>
+</section>
+
+<!-- ── FINAL CTA ── -->
+<section class="final-cta">
+  <p class="sec-eyebrow">You came here for a reason.</p>
+  <h2>Something brought you here today.<br><em>Don't leave without your answer.</em></h2>
+  <p>The quiz takes two minutes. The results are honest. And if your score is what we think it might be — the book, and the call with Chia, could be the thing that changes the next year of your life.</p>
+  <a href="#quiz" class="btn-primary">Discover Yourself as a Parent →</a>
+  <p class="mt-16" style="font-size:13px;color:var(--muted);">8 questions. A real answer. Free.</p>
+</section>
+
+<footer>
+  <p>© 2025 Chia Oyekwe · <em>Dear Parent, It's Okay</em> · All rights reserved.</p>
+  <p class="mt-8"><a href="#">Privacy Policy</a> · <a href="#">Contact</a></p>
+</footer>
+
+<script>
+  const progressFill = document.getElementById('progress-fill');
+  const progressText = document.getElementById('progress-text');
+  const progressPct  = document.getElementById('progress-pct');
+  let currentQ    = 1;
+  let totalScore  = 0;
+  const totalQs   = 8;
+
+  function updateProgress(q) {
+    const pct = Math.round(((q - 1) / totalQs) * 100);
+    progressFill.style.width = pct + '%';
+    progressText.textContent = 'Question ' + q + ' of ' + totalQs;
+    progressPct.textContent  = pct + '%';
+  }
+
+  document.querySelectorAll('.q-option').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const card = this.closest('.q-card');
+      card.querySelectorAll('.q-option').forEach(b => b.classList.remove('selected'));
+      this.classList.add('selected');
+      totalScore += parseInt(this.dataset.score);
+
+      setTimeout(() => {
+        card.classList.remove('active');
+        currentQ++;
+        if (currentQ <= totalQs) {
+          const next = document.querySelector('[data-q="' + currentQ + '"]');
+          if (next) { next.classList.add('active'); updateProgress(currentQ); }
+        } else {
+          progressFill.style.width = '100%';
+          progressText.textContent  = 'Complete';
+          progressPct.textContent   = '100%';
+          setTimeout(() => showResult(totalScore), 250);
+        }
+      }, 380);
+    });
+  });
+
+  updateProgress(1);
+
+  function showResult(score) {
+    let bucket;
+    if (score <= 14)      bucket = 'low';
+    else if (score <= 22) bucket = 'mid';
+    else                  bucket = 'high';
+
+    document.getElementById('result-' + bucket).classList.add('active');
+    setTimeout(() => {
+      document.getElementById('quiz').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
+
+  function handlePurchase(bucket) {
+    const form = document.getElementById('purchase-form-' + bucket);
+    const inputs = form.querySelectorAll('.form-input');
+    const name  = inputs[0].value.trim();
+    const email = inputs[1].value.trim();
+    if (!name || !email) { alert('Please enter your name and email to continue.'); return; }
+
+    const wantsCall = document.getElementById('call-check-' + bucket);
+    const callSelected = wantsCall ? wantsCall.checked : false;
+
+    document.getElementById('result-' + bucket).style.display = 'none';
+
+    const bookingScreen = document.getElementById('booking-screen');
+    if (callSelected) {
+      bookingScreen.classList.add('active');
+    } else {
+      bookingScreen.querySelector('h3').innerHTML = "You're in. Check your inbox for the book.";
+      bookingScreen.querySelector('p').textContent = "If you ever want to take the next step, Chia's call is always available — just reach out.";
+      bookingScreen.querySelector('.btn-buy-book').style.display = 'none';
+      bookingScreen.classList.add('active');
+    }
+    setTimeout(() => {
+      document.getElementById('quiz').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
+</script>
+</body>
+</html>
